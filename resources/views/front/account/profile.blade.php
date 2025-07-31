@@ -19,8 +19,8 @@
                 @include('front.account.sidebar')
             </div>
             <div class="col-lg-9">
+                @include('front.message')
                 <div class="card border-0 shadow mb-4">
-                    @include('front.message')
                     <form action="" method="post" id="userform"> 
                         <div class="card-body  p-4">
                             <h3 class="fs-4 mb-1">My Profile</h3>

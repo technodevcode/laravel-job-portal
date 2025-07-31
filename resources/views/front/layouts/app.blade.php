@@ -51,10 +51,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form id="ProfilePicForm" name="ProfilePicForm" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Profile Image</label>
                 <input type="file" class="form-control" id="image"  name="image">
+				<p class="text-danger" id="image-error"></p>
             </div>
             <div class="d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary mx-3">Update</button>
@@ -83,6 +84,33 @@
 		headers: {
 			'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
 		}
+	});
+
+	jQuery('#ProfilePicForm').submit(function(e){
+        e.preventDefault();
+		let formData = new FormData(this);
+		jQuery.ajax({
+            url: '{{ route("account.updateProfilePic") }}',  // or route in Laravel
+            type: 'post',
+            dataType: 'json',
+			data: formData,
+			contentType: false,
+			processData: false,
+            success: function(response) {
+				if(response.status == false){
+                    var errors = response.errors;
+					if(errors.image){
+						jQuery("#image-error").html(errors.image);
+					}
+				}
+				else{
+					window.location.href = '{{ url()->current() }}';
+				}
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
 	});
 </script>
 @yield('custom_js')
