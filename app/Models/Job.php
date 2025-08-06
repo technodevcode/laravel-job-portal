@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Job extends Model
 {
     use HasFactory;
+
+    public function getFormattedCreatedAtAttribute(){
+        return $this->created_at->format('d M, Y');
+    }
+
+    public function jobType(){
+        return $this->belongsTo(JobType::class);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
