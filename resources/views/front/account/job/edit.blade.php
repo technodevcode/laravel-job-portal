@@ -20,14 +20,14 @@
             </div>
             <div class="col-lg-9">
                 @include('front.message')
-                <form action="" method="post" id="createJobForm" name="createJobForm">
+                <form action="" method="post" id="editJobForm" name="editJobForm">
                     <div class="card border-0 shadow mb-4 ">
                         <div class="card-body card-form p-4">
-                            <h3 class="fs-4 mb-1">Job Details</h3>
+                            <h3 class="fs-4 mb-1">Edit Job Details</h3>
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <label for="" class="mb-2">Title<span class="req">*</span></label>
-                                    <input type="text" placeholder="Job Title" id="title" name="title" class="form-control">
+                                    <input type="text" placeholder="Job Title" id="title" name="title" class="form-control" value="{{ $job->job_title }}">
                                     <p></p>
                                 </div>
                                 <div class="col-md-6  mb-4">
@@ -36,7 +36,7 @@
                                         <option value="">Select a Category</option>
                                         @if($categories->isNotEmpty())
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option> 
+                                                <option value="{{ $category->id }}" @selected($category->id == $job->category_id)>{{ $category->name }}</option> 
                                             @endforeach
                                         @endif
                                     </select>
@@ -51,7 +51,7 @@
                                         <option value=""> Select Job Nature </option> 
                                         @if($job_types->isNotEmpty())
                                             @foreach ($job_types as $job_type)
-                                                <option value="{{ $job_type->id }}">{{ $job_type->name }}</option> 
+                                                <option value="{{ $job_type->id }}" @selected($job_type->id == $job->job_type_id)>{{ $job_type->name }}</option> 
                                             @endforeach
                                         @endif
                                     </select>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="col-md-6  mb-4">
                                     <label for="" class="mb-2">Vacancy<span class="req">*</span></label>
-                                    <input type="number" min="1" placeholder="Vacancy" id="vacancy" name="vacancy" class="form-control">
+                                    <input type="number" min="1" placeholder="Vacancy" id="vacancy" name="vacancy" value="{{ $job->vacancy }}" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
@@ -67,31 +67,31 @@
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Salary</label>
-                                    <input type="text" placeholder="Salary" id="salary" name="salary" class="form-control">
+                                    <input type="text" placeholder="Salary" id="salary" name="salary" value="{{ $job->salary }}" class="form-control">
                                 </div>
 
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Location<span class="req">*</span></label>
-                                    <input type="text" placeholder="location" id="location" name="location" class="form-control">
+                                    <input type="text" placeholder="location" id="location" name="location" value="{{ $job->location }}" class="form-control">
                                     <p></p>
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Description"></textarea>
+                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Description"> {{ $job->description }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Benefits</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></textarea>
+                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5"  placeholder="Benefits"> {{ $job->benefits }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Responsibility</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"></textarea>
+                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"> {{ $job->responsibility }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Qualifications</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"></textarea>
+                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"> {{ $job->qualifications }} </textarea>
                             </div>
 
                             <div class="mb-4">
@@ -99,7 +99,7 @@
                                 <select class="form-select" name="experience" id="experience" class="form-control"> 
                                     <option value=""> Select Job Nature </option>
                                     @foreach($experienceOptions as $value => $label)
-                                        <option value="{{ $value }}">
+                                        <option value="{{ $value }}" @selected($value == $job->experience)>
                                             {{ $label }}
                                         </option>
                                     @endforeach
@@ -109,7 +109,7 @@
 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Keywords</label>
-                                <input type="text" placeholder="keywords" id="keywords" name="keywords" class="form-control">
+                                <input type="text" placeholder="keywords" id="keywords" name="keywords" value="{{ $job->keywords }}" class="form-control">
                             </div>
 
 
@@ -118,23 +118,23 @@
                             <div class="row">
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Name<span class="req">*</span></label>
-                                    <input type="text" placeholder="Company Name" id="company_name" name="company_name" class="form-control">
+                                    <input type="text" placeholder="Company Name" id="company_name" value="{{ $job->company_name }}" name="company_name" class="form-control">
                                     <p></p>
                                 </div>
 
                                 <div class="mb-4 col-md-6">
                                     <label for="" class="mb-2">Location</label>
-                                    <input type="text" placeholder="Company Location" id="company_location" name="company_location" class="form-control">
+                                    <input type="text" placeholder="Company Location" id="company_location" name="company_location" value="{{ $job->company_location }}" class="form-control">
                                 </div>
                             </div>
 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Website</label>
-                                <input type="text" placeholder="Company Website" id="company_website" name="company_website" class="form-control">
+                                <input type="text" placeholder="Company Website" id="company_website" value="{{ $job->company_website }}" name="company_website" class="form-control">
                             </div>
                         </div> 
                         <div class="card-footer  p-4">
-                            <button type="submit" class="btn btn-primary" id="save_job_btn">Save Job</button>
+                            <button type="submit" class="btn btn-primary" id="update_btn">Update Job</button>
                         </div>               
                     </div>  
                 </form>            
@@ -146,16 +146,16 @@
 
 @section('custom_js')
 <script>
-    jQuery('#createJobForm').submit(function(e){
+    jQuery('#editJobForm').submit(function(e){
         e.preventDefault();
-        jQuery('#save_job_btn').prop('disabled', true);
+        jQuery('#update_btn').prop('disabled', true);
         jQuery.ajax({
-            url: '{{ route("account.saveJob") }}',  // or route in Laravel
+            url: '{{ route("account.updateJob", $job->id) }}',  // or route in Laravel
             type: 'post',
-            data: jQuery('#createJobForm').serializeArray(),
+            data: jQuery('#editJobForm').serializeArray(),
             dataType: 'json',
             success: function(response) {
-                jQuery('#save_job_btn').prop('disabled', false);
+                jQuery('#update_btn').prop('disabled', false);
                 if(response.status == false){
                     var errors = response.errors;
                     if(errors.title){
