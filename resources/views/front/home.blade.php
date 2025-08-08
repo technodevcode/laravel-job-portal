@@ -121,7 +121,7 @@
                                     <div class="card border-0 p-3 shadow mb-4">
                                         <div class="card-body">
                                             <h3 class="border-0 fs-5 pb-2 mb-0">{{ $latestJob->job_title }}</h3>
-                                            <p>We are in need of a {{ $latestJob->job_title }} for our company.</p>
+                                            <p>{{ Str::words($latestJob->description, 10) }}</p>
                                             <div class="bg-light p-3 border">
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
