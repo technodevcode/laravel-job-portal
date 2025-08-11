@@ -295,7 +295,7 @@
                         .removeClass('invalid-feedback')
                         .html();
                     
-                    window.location.href = "{{ route('account.myJobs') }}";
+                    //window.location.href = "{{ route('account.myJobs') }}";
                 }
             },
             error: function(xhr, status, error) {

@@ -11,7 +11,7 @@
                 <div class="align-end">
                     <select name="sort" id="sort" class="form-control">
                         <option value="1" {{ (Request::get('sort') == '1') ? 'selected' : '' }}>Latest</option>
-                        <option value="0 {{ (Request::get('sort') == '0') ? 'selected' : '' }}">Oldest</option>
+                        <option value="0" {{ (Request::get('sort') == '0') ? 'selected' : '' }}>Oldest</option>
                     </select>
                 </div>
             </div>
@@ -23,12 +23,12 @@
                     <div class="card border-0 shadow p-4">
                         <div class="mb-4">
                             <h2>Keywords</h2>
-                            <input value="{{ Request::get('keyword') }}" type="text" placeholder="Keywords" name="keyword" class="form-control">
+                            <input value="{{ Request::get('keyword') }}" type="text" placeholder="Keywords" name="keyword" class="form-control" id="keyword">
                         </div>
 
                         <div class="mb-4">
                             <h2>Location</h2>
-                            <input value="{{ Request::get('location') }}" type="text" placeholder="Location" name="location" class="form-control">
+                            <input value="{{ Request::get('location') }}" type="text" placeholder="Location" name="location" class="form-control" id="location">
                         </div>
 
                         <div class="mb-4">
@@ -89,14 +89,14 @@
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                     <span class="ps-1">{{ $job->JobType->name }}</span>
                                                 </p>
-                                                <p class="mb-0">
+                                                {{-- <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                     <span class="ps-1">{{ $job->category->name }}</span>
                                                 </p>
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-clock-o"></i></span>
                                                     <span class="ps-1">Experience {{ $job->experience }} Years</span>
-                                                </p>
+                                                </p> --}}
                                                 @if(!is_null($job->salary))
                                                 <p class="mb-0">
                                                     <span class="fw-bolder"><i class="fa fa-usd"></i></span>
@@ -106,7 +106,7 @@
                                             </div>
 
                                             <div class="d-grid mt-3">
-                                                <a href="job-detail.html" class="btn btn-primary btn-lg">Details</a>
+                                                <a href="{{ route('jobDetialPage', $job->id) }}" class="btn btn-primary btn-lg">Details</a>
                                             </div>
                                         </div>
                                     </div>
@@ -128,10 +128,8 @@
 </section>
 @endsection
 
-@section('customJs')
+@section('custom_js')
 <script>
-    jQuery('ready')
-    jQuery( document ).ready(function() {
     jQuery("#searchForm").submit(function(e){
         e.preventDefault();
 
