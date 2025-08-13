@@ -13,12 +13,14 @@ class JobNotificationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $mailData;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($mailData)
     {
-        //
+        $this->mailData = $mailData;
     }
 
     /**
@@ -27,7 +29,7 @@ class JobNotificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Job Notification Email',
+            subject: 'New Job Applied By ' . $this->mailData['user']->name,
         );
     }
 
@@ -37,7 +39,7 @@ class JobNotificationEmail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'email.job-notification-email',
         );
     }
 
