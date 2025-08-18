@@ -79,19 +79,19 @@
 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Description"> {{ $job->description }} </textarea>
+                                <textarea class="trumbowyg-editor" name="description" id="description" cols="5" rows="5" placeholder="Description"> {{ $job->description }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Benefits</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5"  placeholder="Benefits"> {{ $job->benefits }} </textarea>
+                                <textarea class="trumbowyg-editor" name="benefits" id="benefits" cols="5" rows="5"  placeholder="Benefits"> {{ $job->benefits }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Responsibility</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"> {{ $job->responsibility }} </textarea>
+                                <textarea class="trumbowyg-editor" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"> {{ $job->responsibility }} </textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Qualifications</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"> {{ $job->qualifications }} </textarea>
+                                <textarea class="trumbowyg-editor" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"> {{ $job->qualifications }} </textarea>
                             </div>
 
                             <div class="mb-4">
@@ -295,7 +295,7 @@
                         .removeClass('invalid-feedback')
                         .html();
                     
-                    //window.location.href = "{{ route('account.myJobs') }}";
+                    window.location.href = "{{ route('account.myJobs') }}";
                 }
             },
             error: function(xhr, status, error) {

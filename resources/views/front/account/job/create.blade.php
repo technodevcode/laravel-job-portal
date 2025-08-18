@@ -79,19 +79,19 @@
 
                             <div class="mb-4">
                                 <label for="" class="mb-2">Description<span class="req">*</span></label>
-                                <textarea class="form-control" name="description" id="description" cols="5" rows="5" placeholder="Description"></textarea>
+                                <textarea class="trumbowyg-editor" name="description" id="description" cols="5" rows="5" placeholder="Description"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Benefits</label>
-                                <textarea class="form-control" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></textarea>
+                                <textarea class="trumbowyg-editor" name="benefits" id="benefits" cols="5" rows="5" placeholder="Benefits"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Responsibility</label>
-                                <textarea class="form-control" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"></textarea>
+                                <textarea class="trumbowyg-editor" name="responsibility" id="responsibility" cols="5" rows="5" placeholder="Responsibility"></textarea>
                             </div>
                             <div class="mb-4">
                                 <label for="" class="mb-2">Qualifications</label>
-                                <textarea class="form-control" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"></textarea>
+                                <textarea class="trumbowyg-editor" name="qualifications" id="qualifications" cols="5" rows="5" placeholder="Qualifications"></textarea>
                             </div>
 
                             <div class="mb-4">

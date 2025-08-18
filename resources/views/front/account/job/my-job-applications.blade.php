@@ -43,7 +43,7 @@
                                                         <div class="info1">{{ $appliedJob->job->jobType->name }} . {{ $appliedJob->job->location }}</div>
                                                     </td>
                                                     <td>{{ $appliedJob->job->formatted_created_at }}</td>
-                                                    <td>130 Applications</td>
+                                                    <td>{{ $appliedJob->job->applications->count() }}</td>
                                                     <td>
                                                         <div class="job-status text-capitalize">
                                                             {{ $appliedJob->job->status == 1 ? 'Active' : 'Block' }}
@@ -56,12 +56,16 @@
                                                             </a>
                                                             <ul class="dropdown-menu dropdown-menu-end">
                                                                 <li><a class="dropdown-item" href="{{ route('jobDetialPage', $appliedJob->job->id) }}"> <i class="fa fa-eye" aria-hidden="true"></i> View</a></li>
-                                                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="deleteJob({{ $appliedJob->job->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
+                                                                <li><a class="dropdown-item" href="javascript:void(0);" onclick="deleteJob({{ $appliedJob->id }})"><i class="fa fa-trash" aria-hidden="true"></i> Remove</a></li>
                                                             </ul>
                                                         </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                            @else
+                                            <tr>
+                                                <td colspan="5" style="text-align:center;">Job applications not found.</td>
+                                            </tr>
                                         @endif
                                     </tbody>
                                 </table>
@@ -79,12 +83,12 @@
     function deleteJob(jobId) {
     if (confirm("Are you sure you want to delete?")) {
             $.ajax({
-                url : '{{ route("account.deleteJob") }}',
+                url : '{{ route("account.appliedJobDelete") }}',
                 type: 'post',
                 data: {jobId: jobId},
                 dataType: 'json',
                 success: function(response) {
-                    window.location.href='{{ route("account.myJobs") }}';
+                    window.location.href='{{ route("account.myJobApplications") }}';
                 }
             });
         } 

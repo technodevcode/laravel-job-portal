@@ -50,24 +50,29 @@
                 </div>
 
                 <div class="card border-0 shadow mb-4">
-                    <div class="card-body p-4">
-                        <h3 class="fs-4 mb-1">Change Password</h3>
-                        <div class="mb-4">
-                            <label for="" class="mb-2">Old Password*</label>
-                            <input type="password" placeholder="Old Password" class="form-control">
+                    <form id="changePasswordForm" name="changePasswordForm" action="" method="post">
+                        <div class="card-body p-4">
+                            <h3 class="fs-4 mb-1">Change Password</h3>
+                            <div class="mb-4">
+                                <label for="" class="mb-2">Old Password*</label>
+                                <input type="password" placeholder="Old Password" name="old_password" class="form-control" id="old_password">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="mb-2">New Password*</label>
+                                <input type="password" placeholder="New Password" name="new_password" class="form-control" id="new_password">
+                                <p></p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="mb-2">Confirm Password*</label>
+                                <input type="password" placeholder="Confirm Password" name="confirm_password" class="form-control" id="confirm_password">
+                                <p></p>
+                            </div>                        
                         </div>
-                        <div class="mb-4">
-                            <label for="" class="mb-2">New Password*</label>
-                            <input type="password" placeholder="New Password" class="form-control">
+                        <div class="card-footer  p-4">
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
-                        <div class="mb-4">
-                            <label for="" class="mb-2">Confirm Password*</label>
-                            <input type="password" placeholder="Confirm Password" class="form-control">
-                        </div>                        
-                    </div>
-                    <div class="card-footer  p-4">
-                        <button type="button" class="btn btn-primary">Update</button>
-                    </div>
+                    </form>
                 </div>                
             </div>
         </div>
@@ -127,6 +132,77 @@
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
+            }
+        });
+    });
+
+    jQuery("#changePasswordForm").submit(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '{{ route("account.updatePassword") }}',
+            type: 'post',
+            dataType: 'json',
+            data: jQuery("#changePasswordForm").serializeArray(),
+            success: function(response) {
+
+                if(response.status == true) {
+
+                    jQuery("#old_password").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('')
+
+                    jQuery("#new_password").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('')
+
+                    jQuery("#confirm_password").removeClass('is-invalid')
+                    .siblings('p')
+                    .removeClass('invalid-feedback')
+                    .html('')
+
+                    window.location.href="{{ route('account.profile') }}";
+
+                } else {
+                    var errors = response.errors;
+
+                    if (errors.old_password) {
+                        jQuery("#old_password").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.old_password)
+                    } else {
+                        jQuery("#old_password").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('')
+                    }
+
+                    if (errors.new_password) {
+                        jQuery("#new_password").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.new_password)
+                    } else {
+                        jQuery("#new_password").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('')
+                    }
+
+                    if (errors.confirm_password) {
+                        jQuery("#confirm_password").addClass('is-invalid')
+                        .siblings('p')
+                        .addClass('invalid-feedback')
+                        .html(errors.confirm_password)
+                    } else {
+                        jQuery("#confirm_password").removeClass('is-invalid')
+                        .siblings('p')
+                        .removeClass('invalid-feedback')
+                        .html('')
+                    }
+                }
             }
         });
     });
