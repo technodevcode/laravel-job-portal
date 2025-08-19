@@ -28,19 +28,19 @@ Route::post('/apply-job',[JobsController::class,'applyJob'])->name('applyJob');
 Route::post('/save-job',[JobsController::class,'saveJob'])->name('saveJob');
 
 
-Route::group(['prefix' => 'admin'], function(){
-    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/users',[AdminDashboardController::class,'usersList'])->name('admin.users');
-    Route::get('/users/{id}',[AdminDashboardController::class,'editUser'])->name('admin.users.edit');
-    Route::put('/users/{id}',[AdminDashboardController::class,'updateUser'])->name('admin.users.update');
-    //Route::delete('/users',[UserController::class,'destroyUser'])->name('admin.users.destroy');
-    // Route::get('/jobs',[JobController::class,'index'])->name('admin.jobs');
-    // Route::get('/jobs/edit/{id}',[JobController::class,'edit'])->name('admin.jobs.edit');
-    // Route::put('/jobs/{id}',[JobController::class,'update'])->name('admin.jobs.update');
-    // Route::delete('/jobs',[JobController::class,'destroy'])->name('admin.jobs.destroy');
-    // Route::get('/job-applications',[JobApplicationController::class,'index'])->name('admin.jobApplications');
-    // Route::delete('/job-applications',[JobApplicationController::class,'destroy'])->name('admin.jobApplications.destroy');
-});
+Route::group(['prefix' => 'admin', 'middleware' => 'role', 'as' => 'admin.'], function(){
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/users',[AdminDashboardController::class,'usersList'])->name('users');
+    Route::get('/users/{id}',[AdminDashboardController::class,'editUser'])->name('users.edit');
+    Route::put('/users/{id}',[AdminDashboardController::class,'updateUser'])->name('users.update');
+    Route::delete('/delet-users',[AdminDashboardController::class,'destroyUser'])->name('users.destroy');
+    Route::get('/jobs',[AdminDashboardController::class,'jobsList'])->name('jobs');
+    Route::get('/jobs/edit/{id}',[AdminDashboardController::class,'editJob'])->name('jobs.edit');
+    Route::put('/jobs/{id}',[AdminDashboardController::class,'updateJob'])->name('jobs.update');
+    Route::delete('/delete-jobs',[AdminDashboardController::class,'destroyJob'])->name('jobs.destroy');
+    Route::get('/job-applications',[AdminDashboardController::class,'jobApplications'])->name('jobApplications');
+    Route::delete('/delet-job-applications',[AdminDashboardController::class,'destroy'])->name('jobApplications.destroy');
+});  
 
 Route::group(['prefix' => 'account'], function(){
     // guest

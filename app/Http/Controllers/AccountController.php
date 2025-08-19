@@ -266,8 +266,7 @@ class AccountController extends Controller
             $job->benefits = $request->benefits;
             $job->responsibility = $request->responsibility;
             $job->qualifications = $request->qualifications;
-            $job->keywords = $request->keywords;
-            $job->keywords = $request->keywords;
+            $job->keywords = $request->keywords;    
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
