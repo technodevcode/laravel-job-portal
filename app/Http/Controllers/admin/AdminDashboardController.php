@@ -11,9 +11,12 @@ use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\SavedJob;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdminDashboardController extends Controller
 {
+    use SoftDeletes;
+
     public function index(){
         return view('admin.dashboard');
     }
@@ -80,12 +83,21 @@ class AdminDashboardController extends Controller
         return response()->json([
             'status' => true,
         ]);
+    }    
+
+    public function jobsList(Request $request)
+{
+        $status = $request->get('status', 'active');
+
+        if ($status === 'deleted') {
+            $jobs = Job::onlyTrashed()->orderBy('created_at', 'asc')->with(['user', 'applications'])->paginate(10);
+        } else {
+            $jobs = Job::where('status', 1)->orderBy('created_at', 'asc')->with(['user', 'applications'])->paginate(10);
+        }
+
+        return view('admin.jobs.list', compact('jobs', 'status'));
     }
 
-    public function jobsList(){
-        $jobs = Job::orderBy('created_at', 'asc')->with(['user', 'applications'])->paginate(10);
-        return view('admin.jobs.list', compact('jobs'));
-    }
 
     public function editJob(Request $request, $id){
         
@@ -169,7 +181,11 @@ class AdminDashboardController extends Controller
             ]);
         }
 
-        Job::where('id',$request->id)->delete();
+        $job->status = 0;
+        $job->save();
+        $job->delete();
+
+        //Job::where('id',$request->id)->delete();
         
         session()->flash('success','Job deleted successfully.');
         return response()->json([
@@ -177,9 +193,17 @@ class AdminDashboardController extends Controller
         ]);
     }
 
+    public function restoreJob($id)
+    {
+        $job = Job::onlyTrashed()->findOrFail($id);
+        $job->status = 1;
+        $job->save();
+        $job->restore();
+        return redirect()->route('admin.jobs', ['status' => 'deleted'])->with('success', 'Job restored successfully.');
+    }
+
     public function jobApplications(){
-        $applications = JobApplication::orderBy('created_at', 'DESC')->with(['job', 'user', 'employer'])->orderBy('created_at', 'DESC')->paginate(10);       
-       
+        $applications = JobApplication::with(['job', 'user', 'employer'])->orderBy('created_at', 'DESC')->paginate(10);       
         return view('admin.job-applications.list', compact('applications'));
     }
 }

@@ -26,7 +26,17 @@
                                 <h3 class="fs-4 mb-1">Jobs</h3>
                             </div>
                             <div style="margin-top: -10px;">
-                            </div>                            
+                                <ul class="nav nav-tabs" id="jobTabs">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $status === 'active' ? 'active' : '' }}"
+                                           href="{{ route('admin.jobs', ['status' => 'active']) }}">Active Jobs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ $status === 'deleted' ? 'active' : '' }}"
+                                           href="{{ route('admin.jobs', ['status' => 'deleted']) }}">Deleted Jobs</a>
+                                    </li>
+                                </ul>
+                            </div>                           
                         </div>
                         <div class="table-responsive">
                             <table class="table ">
@@ -53,30 +63,48 @@
                                             <td>
                                                 @if ($job->status == 1)
                                                     <p class="text-success">Active</p>
+                                                @elseif ($job->status == 0)
+                                                    <p class="text-danger">Inactive</p>
                                                 @else
-                                                    <p class="text-danger">Block</p>
+                                                <p class="text-danger">Block</p>
                                                 @endif
                                             </td>
                                             <td>{{ $job->formatted_created_at }}</td>
                                             <td>
                                                 <div class="action-dots ">
-                                                    <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu dropdown-menu-end">
-                                                        <li><a class="dropdown-item" href="{{ route('admin.jobs.edit',$job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
-                                                        <li><a class="dropdown-item" onclick="deleteJob({{ $job->id }})" href="javascript:void(0);"  ><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
-                                                    </ul>
+                                                    
+                                                    @if($status === 'deleted')
+                                                    <!-- Show Restore button -->
+                                                        <form action="{{ route('admin.jobs.restore', $job->id) }}" method="POST" style="display:inline;">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="btn btn-sm btn-success">
+                                                                Restore
+                                                            </button>
+                                                        </form>
+                                                    @else
+                                                        <button href="#" class="btn" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+                                                            <li><a class="dropdown-item" href="{{ route('admin.jobs.edit',$job->id) }}"><i class="fa fa-edit" aria-hidden="true"></i> Edit</a></li>
+                                                            <li><a class="dropdown-item" onclick="deleteJob({{ $job->id }})" href="javascript:void(0);"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+                                                        </ul>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
                                         @endforeach
+                                        @else
+                                        <tr>
+                                            <td colspan="6" style="text-align:center;">No records found.</td>
+                                        </tr> 
                                     @endif
                                 </tbody>                                
                             </table>
                         </div>
                         <div>
-                            {{ $jobs->links() }}
+                            {{ $jobs->appends(['status' => $status])->links() }}
                         </div>
                     </div>
                 </div>                          
